@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MoniBe-Notas de junio</title>
+    <link rel="stylesheet" href="estilazo.css" />
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="intro-screen" class="screen-visible">
+      <div class="logo-container">
+        <img src="img/MB2-removebg.png" alt="M-B Moni-Be Logo" />
+      </div>
+
+      <h1 class="MoniBe">Moni-Be</h1>
+
+      <button id="btn-ver-notas">VER NOTAS</button>
+
+      <div class="agent-container">
+        <img
+          src="img/moni-be-MIB-fondoblanco-removebg.png"
+          alt="Agente Mónica"
+        />
+      </div>
+    </div>
+
+    <div id="game-screen" class="screen-hidden">
+      <div class="escenario-juego">
+
+      <div class="alien alien-left" id="alien-despliegue">
+        <img src="img/monstruo_MIB_12-removebg.png" alt="Alien Despliegue" />
+        <div class="hitbox"></div>
+      </div>
+
+      <div class="alien alien-right" id="alien-interfaces">
+        <img src="img/carlino_resize_bgremove.png" alt="Alien Interfaces" />
+        <div class="hitbox"></div>
+      </div>
+
+      <div class="alien alien-top" id="alien-servidor">
+        <img src="img/monstruo_MIB_13-removebg.png" alt="Alien Servidor" />
+        <div class="hitbox"></div>
+      </div>
+
+      <div class="alien alien-right-behind" id="alien-angular">
+        <img src="img/hombre_resize_removebg.png" alt="Alien Angular" />
+        <div class="hitbox"></div>
+      </div>
+
+      <div class="alien alien-left-behind" id="alien-cliente">
+        <img src="img/monstruo_MIB_8-removebg.png" alt="Alien Cliente" />
+        <div class="hitbox"></div>
+      </div>
+
+      <div class="alien alien-left-hanging" id="alien-ingles">
+        <img src="img/monstruo_MIB_9-removebg.png" alt="Alien Inglés" />
+        <div class="hitbox"></div>
+      </div>
+
+      <div class="alien alien-border-left" id="alien-ipe2">
+        <img src="img/monstruo_MIB_10-removebg.png" alt="Alien IPE2" />
+        <div class="hitbox"></div>
+      </div>
+
+      <div class="alien" id="alien-real">
+        <img src="img/niña2-removebg.png" alt="Alien Tiffany" />
+        <div class="hitbox"></div>
+      </div>
+
+      </div>
+    </div>
+
+    <div id="custom-crosshair"></div>
+
+    <!-- DIÁLOGO TIFFANY -->
+    <div id="tiffany-dialog">
+      <div class="tiffany-box">
+        <p>¡Qué buena puntería! Es el peor de todos los aliens.<br>¿Una niña de 8 años con libros de Técnico Superior en Desarrollo de Aplicaciones Web en un callejón por la noche?<br>¡Algo trama!</p>
+        <p class="tiffany-copyright">&copy; 2026 <a href="https://monibe.es" target="_blank" rel="noopener">MoniBe</a></p>
+        <div class="tiffany-actions">
+          <button id="tiffany-close">Cerrar</button>
+          <button id="tiffany-restart">Reiniciar</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="magia.js" type="text/javascript"></script>
+  </body>
+</html>

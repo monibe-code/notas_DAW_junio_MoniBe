@@ -1,0 +1,15 @@
+# --- SISTEMA OPERATIVO ---
+# Archivos basura que generan Windows y Mac automáticamente en las carpetas
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- CONFIGURACIÓN DE EDITORES (IDE) ---
+# Evita subir las carpetas de configuración de tu editor de código
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+

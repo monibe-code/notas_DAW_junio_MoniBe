@@ -1,0 +1,521 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* Añade esto al principio del CSS */
+html, body {
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  background-color: #0d0d0d;
+}
+
+
+/*FUENTES*/
+@font-face {
+    font-family: 'Satoshi';
+    src: url('fonts/Satoshi-Regular.woff2') format('woff2');
+    font-style: normal;
+    font-display: swap;
+}
+
+/* --- CONTROL DE PANTALLAS --- */
+#intro-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px; /* Espacio uniforme entre los tres elementos */
+  height: 100vh;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+.screen-visible {
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
+
+.screen-hidden {
+  opacity: 0;
+  pointer-events: none; /* Evita que se pueda hacer click mientras está oculto */
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  transition: opacity 0.8s ease;
+}
+
+.MoniBe {
+  color: #292929;
+  font-family: 'Satoshi', sans-serif;
+  font-size: 65px;
+  letter-spacing: 28px;
+  text-transform: uppercase;
+  margin-top: -50px;
+  margin-bottom: 50px;
+}
+
+#btn-ver-notas {
+  /* Fondo y color del texto */
+  background-color: #141414;
+  color: #e0e0e0;
+  
+  /* Tipografía (Estilo elegante Serif para MIB) */
+  font-family: 'Satoshi', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 2px; /* Espaciado sutil entre letras */
+  
+  /* Bordes y Esquinas (Efecto píldora de la imagen) */
+  border: none;
+  border-radius: 12px; /* Redondeado idéntico al de tu captura */
+  
+  /* Espaciado interno (Para darle cuerpo al botón) */
+  padding: 12px 35px;
+  
+  /* Interactividad básica */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+/* Efecto opcional pero muy pro cuando el usuario pasa el ratón por encima */
+#btn-ver-notas:hover {
+  transform: scale(1.05);    /* Micro-zoom para dar feedback de click */
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* --- EL CAMPO DE TIRO --- */
+#game-screen {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow: visible;
+  background-image: url('img/fondo_MIB_3.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* ===== ALIENS: posición final absoluta + dirección de entrada ===== */
+
+/* Todos comparten la transición */
+.alien {
+  position: absolute;
+  z-index: 10;
+  transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 1.5s ease;
+}
+
+/* La imagen ocupa todo el wrapper */
+.alien img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none; /* El hover lo gestiona el hitbox, no la imagen */
+}
+
+/* HITBOX: zona de detección sobre el tronco del personaje */
+.hitbox {
+  position: absolute;
+  /* Centrado horizontal, zona media-alta del cuerpo (tronco) */
+  left: 55%;
+  top: 30%;
+  transform: translateX(-50%);
+  width: 40%;
+  height: 35%;
+  box-sizing: border-box;
+  background: transparent;
+  pointer-events: all;
+  z-index: 11;
+  cursor: none;
+}
+
+/* Al hacer spawn, todo vuelve a cero */
+.alien.spawned {
+  transform: translate(0, 0) !important;
+  opacity: 1 !important;
+}
+
+/* --- Cada alien: posición final + offset de entrada --- */
+
+/* MIB 12 — izquierda del todo, fondo */
+#alien-despliegue {
+  left: 65%;
+  top: -8%;
+  transform: translateX(-350px);
+}
+
+/* CARLINO — izquierda, delante de la niña */
+#alien-interfaces {
+  left: 41%;
+  bottom: 15%;
+  transform: translateX(-350px);
+}
+
+/* MIB 1C — arriba izquierda, cae del techo */
+#alien-servidor {
+  left: 50%;
+  top: 19%;
+  transform: translateY(-350px);
+}
+
+/* HOMBRE CARRITO — centro-izquierda, fondo */
+#alien-angular {
+  right: 12%;
+  bottom: 29%;
+  transform: translateY(-350px);
+}
+
+/* MIB 8 — centro, grande, el monstruo principal */
+#alien-cliente {
+  left: 15%;
+  bottom: 23%;
+  transform: translateX(400px);
+}
+
+/* MIB 9 — colgado arriba, cerca de la farola */
+#alien-ingles {
+  left: 1%;
+  top: -5%;
+  transform: translateY(-350px);
+}
+
+/* MIB 10 — derecha, fondo */
+#alien-ipe2 {
+  left: -8%;
+  bottom: 14%;
+  transform: translateX(400px);
+}
+
+/* NIÑA (Tiffany) — centro, aparece con scale */
+#alien-real {
+  left: 33%;
+  bottom: 13%;
+  transform: scale(0);
+  opacity: 0;
+}
+#alien-real.spawned {
+  transform: scale(1) !important;
+  opacity: 1 !important;
+}
+
+/* CURSOR RATÓN*/
+
+/* 1. Ocultar el cursor real solo en la pantalla del juego */
+#game-screen {
+  cursor: none;
+}
+#game-screen .alien {
+  cursor: none; /* Asegura que tampoco se vea sobre los aliens */
+}
+
+/* 2. Estilo base del visor personalizado */
+#custom-crosshair {
+  width: 40px;
+  height: 40px;
+  position: fixed;
+  pointer-events: none; /* Crucial: permite hacer click a través de él */
+  z-index: 9999; /* Siempre por encima de todo */
+  
+  /* Dibujamos la mira circular discontinua de tu captura */
+  border: 3px dashed #00ff00; /* Verde fosforito */
+  border-radius: 50%;
+  
+  /* Centrado perfecto respecto a las coordenadas del ratón */
+  transform: translate(-50%, -50%);
+  
+  /* Transición suave para cuando cambie de tamaño y color */
+  transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease;
+  
+  /* Oculto por defecto, solo lo mostraremos en el campo de tiro */
+  display: none;
+}
+
+/* 3. CLASE EN ACCIÓN: Cuando apuntamos a un alien (se activa por JS) */
+#custom-crosshair.targeting {
+  width: 25px;          /* Más chico */
+  height: 25px;         /* Más chico */
+  border-color: #ff0000; /* Color rojo de objetivo fijado */
+  border-style: solid;   /* Línea continua para dar sensación de fijado */
+}
+
+/* ===== ESTADO DISPARADO ===== */
+
+/* Filtro rojo completo sobre el alien */
+.alien.shot img {
+  filter: brightness(0.2) sepia(1) hue-rotate(-50deg) saturate(8) !important;
+  transition: filter 0.15s ease;
+}
+
+/* Contenedor de la nota neón, centrado sobre el alien */
+.alien .nota-neon {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  text-align: center;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.alien.shot .nota-neon {
+  display: block;
+}
+
+/* Nombre de la asignatura */
+.nota-neon .asignatura {
+  font-family: 'Satoshi', sans-serif;
+  font-size: clamp(10px, 1.4vw, 16px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #ff2200;
+  text-shadow:
+    0 0 4px #ff0000,
+    0 0 10px #ff0000,
+    0 0 22px #ff4400,
+    0 0 40px #ff0000;
+  margin-bottom: 4px;
+}
+
+/* Número de nota */
+.nota-neon .puntuacion {
+  font-family: "Times New Roman", Times, serif;
+  font-size: clamp(28px, 5vw, 64px);
+  font-weight: 900;
+  color: #ff1100;
+  line-height: 1;
+  text-shadow:
+    0 0 6px #ff0000,
+    0 0 18px #ff0000,
+    0 0 36px #ff3300,
+    0 0 70px #ff0000,
+    0 0 100px #ff2200;
+  animation: neon-pulse 1.4s ease-in-out infinite alternate;
+}
+
+@keyframes neon-pulse {
+  from {
+    text-shadow:
+      0 0 6px #ff0000,
+      0 0 18px #ff0000,
+      0 0 36px #ff3300,
+      0 0 70px #ff0000;
+  }
+  to {
+    text-shadow:
+      0 0 10px #ff4400,
+      0 0 28px #ff2200,
+      0 0 55px #ff0000,
+      0 0 90px #ff1100,
+      0 0 130px #ff0000;
+  }
+}
+
+
+/* ===== DIÁLOGO TIFFANY ===== */
+
+#tiffany-dialog {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.75);
+}
+
+#tiffany-dialog.visible {
+  display: flex;
+}
+
+.tiffany-box {
+  background: #0d0d0d;
+  border: 2px solid #ff2200;
+  border-radius: 4px;
+  max-width: 480px;
+  width: 90%;
+  padding: 36px 32px 28px;
+  text-align: center;
+  box-shadow:
+    0 0 20px rgba(255, 34, 0, 0.4),
+    0 0 60px rgba(255, 34, 0, 0.15);
+  animation: dialog-in 0.25s ease;
+}
+
+@keyframes dialog-in {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.tiffany-box p {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #e0e0e0;
+  margin-bottom: 24px;
+}
+
+.tiffany-copyright {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: #666;
+  margin-bottom: 24px !important;
+}
+
+.tiffany-copyright a {
+  color: #ff2200;
+  text-decoration: none;
+  text-shadow: 0 0 8px #ff0000;
+  transition: text-shadow 0.2s ease;
+}
+
+.tiffany-copyright a:hover {
+  text-shadow: 0 0 14px #ff4400, 0 0 28px #ff0000;
+}
+
+#tiffany-close {
+  background: transparent;
+  border: 1px solid #ff2200;
+  color: #ff2200;
+  font-family: 'Satoshi', sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 8px 28px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+#tiffany-close:hover {
+  background: #ff2200;
+  color: #0d0d0d;
+}
+
+/* Botones del diálogo en fila */
+.tiffany-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+#tiffany-restart {
+  background: transparent;
+  border: 1px solid #555;
+  color: #999;
+  font-family: 'Satoshi', sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 8px 28px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+#tiffany-restart:hover {
+  background: #333;
+  border-color: #888;
+  color: #e0e0e0;
+}
+
+
+/* ==========================================================================
+   MEDIA QUERIES FOR INTRO SCREEN (TABLET & MOBILE)
+   ========================================================================== */
+
+/* --- 📱 TABLETS (Pantallas de hasta 1024px de ancho) --- */
+@media (max-width: 1024px) {
+  .MoniBe {
+    font-size: 48px;         /* Reducimos el tamaño para que no ocupe tanto */
+    letter-spacing: 18px;    /* Estrechamos un poco el espaciado entre letras */
+    margin-top: -20px;       /* Suavizamos el desplazamiento hacia arriba */
+    margin-bottom: 30px;
+  }
+
+  #intro-screen {
+    gap: 20px;               /* Compactamos un pelín el espacio vertical */
+  }
+
+  /* Controlamos que las imágenes de los contenedores no se desmadren */
+  .logo-container img,
+  .agent-container img {
+    max-width: 80%;          /* Escalado proporcional */
+    height: auto;
+  }
+}
+
+/* --- 📲 MÓVILES (Pantallas de hasta 480px de ancho) --- */
+@media (max-width: 480px) {
+  #intro-screen {
+    justify-content: space-between; /* Distribuye los bloques arriba, centro y abajo equitativamente */
+    padding: 40px 20px 0px 20px;    /* Margen generoso arriba y a los lados; abajo 0 para pegar el avatar */
+    gap: 0;                         /* Quitamos el gap para que mande el space-between */
+    height: 100vh;
+    overflow: hidden;               /* Garantiza que nada fuerce el scroll */
+  }
+
+  /* Bloque del Logo Superior */
+  .logo-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .logo-container img {
+    max-width: 55%;                 /* Escala el logo M-B para que quede estilizado y centrado */
+    height: auto;
+    margin: 0 auto;
+  }
+
+  /* Texto Moni-Be */
+  .MoniBe {
+    font-size: 32px;
+    letter-spacing: 8px;
+    margin-top: 10px;                /* Pequeño espacio respecto al logo de arriba */
+    margin-bottom: 15px;
+    text-align: center;
+    width: 100%;
+  }
+
+  /* Botón central */
+  #btn-ver-notas {
+    font-size: 14px;
+    padding: 12px 0;                 /* Padding vertical cómodo */
+    width: 75%;                      /* Ancho perfecto para pulsar con el pulgar */
+    max-width: 240px;
+    margin: 0 auto;    /* Centrado horizontal garantizado */
+  }
+
+  /* Contenedor del Avatar Inferior */
+  .agent-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;           /* Fuerza a que el avatar se apoye en el borde inferior */
+    margin-top: auto;                /* Empuja el contenedor hacia abajo del todo */
+  }
+
+  .agent-container img {
+    max-width: 70%;                  /* Tamaño controlado para que no se coma la pantalla */
+    height: auto;
+    display: block;                  /* Elimina espacios fantasmas inferiores del elemento inline */
+  }
+}
+
+/*MEDIA QUERIES campo de tiro*/
+@media (max-width: 768px) {
+  #game-screen {
+    /* Forzamos a que el juego se comporte internamente como si midiera 1200px de ancho */
+    width: 1200px; 
+    height: 100vh;
+    /* Lo encogemos visualmente para que quepa en la pantalla del móvil */
+    transform: scale(0.4); 
+    transform-origin: top left;
+  }
+}

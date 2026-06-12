@@ -157,7 +157,7 @@ html, body {
 /* MIB 1C — arriba izquierda, cae del techo */
 #alien-servidor {
   left: 50%;
-  top: 19%;
+  top: 24%;
   transform: translateY(-350px);
 }
 

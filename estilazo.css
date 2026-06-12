@@ -365,7 +365,8 @@ html, body {
   font-size: 12px;
   letter-spacing: 1px;
   color: #666;
-  margin-bottom: 24px !important;
+  margin-bottom: 2px !important;
+  margin-top: 40px !important;
 }
 
 .tiffany-copyright a {

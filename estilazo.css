@@ -159,6 +159,7 @@ html, body {
   left: 55%;
   top: 24%;
   transform: translateY(-350px);
+  z-index: 10;
 }
 
 /* HOMBRE CARRITO — centro-izquierda, fondo */
@@ -166,6 +167,7 @@ html, body {
   right: 12%;
   bottom: 29%;
   transform: translateY(-350px);
+  z-index: 5;
 }
 
 /* MIB 8 — centro, grande, el monstruo principal */

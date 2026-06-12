@@ -9,11 +9,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const crosshair = document.getElementById("custom-crosshair");
 
   // 🔊 AUDIO 1: Configuración del sonido de fondo
-  const audioFondo = new Audio("audio/campo_tiro_2.MP3");
+  const audioFondo = new Audio("audio/campo_tiro_2.mp3");
   audioFondo.volume = 0.4; // Volumen al 40% para que no tape el disparo ni sature
 
   // 🔊 AUDIO 2: Configuración del efecto de disparo
-  const audioDisparo = new Audio("audio/disparo.MP3");
+  const audioDisparo = new Audio("audio/disparo.mp3");
   audioDisparo.volume = 0.7;
 
   btnVerNotas.addEventListener("click", () => {

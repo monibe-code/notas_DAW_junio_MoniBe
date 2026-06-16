@@ -140,7 +140,6 @@ html, body {
 
 /* --- Cada alien: posición final + offset de entrada --- */
 
-/* MIB 12 — izquierda del todo, fondo */
 #alien-despliegue {
   left: 65%;
   top: -8%;
@@ -520,5 +519,125 @@ html, body {
     /* Lo encogemos visualmente para que quepa en la pantalla del móvil */
     transform: scale(0.4); 
     transform-origin: top left;
+  }
+}
+
+/* ==========================================================================
+   MEDIA QUERIES PARA PORTÁTILES (Pantallas medianas o con poca altura)
+   ========================================================================== */
+
+@media screen and (max-width: 1440px) and (min-width: 1025px), screen and (max-height: 850px) and (min-width: 769px) {
+  
+  /* --- 🏢 PANTALLA DE INICIO (PORTÁTILES) --- */
+  #intro-screen {
+    gap: 15px;                  /* Reducimos el espacio vertical global */
+    padding: 20px 0;
+    justify-content: center;
+  }
+
+  /* Escalamos el logo M-B para que no se recorte */
+  .logo-container {
+    max-height: 20vh;           /* Limitamos la altura basándonos en el alto de la pantalla */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .logo-container img {
+    max-height: 100%;
+    width: auto;                /* Mantiene la proporción perfecta */
+    object-fit: contain;
+  }
+
+  /* Ajustamos el texto principal */
+  .MoniBe {
+    font-size: 45px;            /* Un poco más pequeño que los 65px de escritorio */
+    letter-spacing: 18px;       /* Reducimos proporcionalmente */
+    margin-top: -10px;
+    margin-bottom: 0px;
+  }
+
+  /* Reducimos tu avatar de MIB para que quepa entero en vertical */
+  .agent-container {
+    max-height: 55vh;           /* Controla que ocupe máximo el 35% de la altura de la pantalla */
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+
+  .agent-container img {
+    max-height: 100%;
+    width: auto;
+    object-fit: contain;
+  }
+
+
+  /* --- 👽 EL CAMPO DE TIRO (PORTÁTILES) --- */
+  
+  /* Aplicamos la técnica de escalado del viewport (similar a la que usaste en móviles) 
+     pero ajustada para portátiles, garantizando que el escenario se vea idéntico 
+     al de escritorio sin que los aliens se descoloquen o se pisen.
+  */
+  #game-screen {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* Escalamos ligeramente el tamaño general de los aliens */
+  .alien {
+    transform: scale(0.65);    /* Los encogemos un 15% para darles aire */
+  }
+
+  /* Al hacer spawn, respetamos su escala reducida para que no vuelvan al tamaño gigante */
+  .alien.spawned {
+    transform: translate(0, 0) scale(0.85) !important;
+  }
+
+  /* Ajuste específico para la niña (Tiffany), para que su escala de spawn no rompa la regla */
+  #alien-real.spawned {
+    transform: scale(0.85) !important;
+
+  }
+
+  #alien-despliegue {
+    top: -15%;
+  }
+
+  /* Reajustamos levemente las posiciones más críticas para evitar solapamientos */
+  #alien-interfaces {
+    left: 41%;
+    bottom: 12%;
+    transform: scale(0.70) !important;
+  }
+
+  #alien-servidor {
+    top: 10%;
+    left: 45%;
+    transform: scale(0.65)  !important;
+  }
+
+  #alien-angular {
+    right: 5%;
+    bottom: 23%;
+  }
+
+  #alien-cliente {
+    left: 15%;
+    bottom: 15%;
+  }
+
+  #alien-ingles {
+    top: -20%;
+    transform: scale(0.65) !important;
+  }
+
+  #alien-ipe2 {
+    bottom: 1%;
+    transform: scale(0.65) !important;
+  }
+
+  #alien-real {
+    bottom: 3%;
   }
 }
